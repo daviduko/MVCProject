@@ -1,0 +1,23 @@
+﻿@using MVCProject.Models.ViewModels
+@model AnimalViewModel
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1>Lista de Animales</h1>
+    <ul>
+        @for (int i = 0; i < Model.Animales.Count; i++)
+        {
+            <li>
+                <span class="animal-id" style="color:@(i % 2 == 1 ? "red" : "black")">
+                    ID: @(i + 1)
+                </span>
+                @Model.Animales[i]
+            </li> 
+            @* <li><span class="animal-id">ID: @(i + 1)</span>Model.Animales[i]</li> *@
+        }
+    </ul>
+</div>
