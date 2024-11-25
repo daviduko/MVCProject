@@ -11,6 +11,32 @@ namespace MVCProject.DAL
             "User ID=sa;" +
             "Password=Sql#123456789";
 
+        public List<TipoAnimal> GetAll()
+        {
+            List<TipoAnimal> tiposAnimal = new List<TipoAnimal>();
+            TipoAnimalDAL tipoAnimalDAL = new TipoAnimalDAL();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT * FROM TipoAnimal";
+                SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    TipoAnimal animal = new TipoAnimal()
+                    {
+                        IdTipoAnimal = (int)reader["IdTipoAnimal"],
+                        TipoDescripcion = reader["TipoDescripcion"].ToString()
+                    };
+                    tiposAnimal.Add(animal);
+                }
+            }
+
+            return tiposAnimal;
+        }
+
         public TipoAnimal GetById(int id)
         {
             TipoAnimal tipoAnimal = null;

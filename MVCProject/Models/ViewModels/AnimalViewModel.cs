@@ -3,10 +3,6 @@
     public class AnimalViewModel
     {
         public List<Animal> Animales { get; set; } = new List<Animal>();
-
-        public AnimalViewModel()
-        {
-            
-        }
+        public List<TipoAnimal> TiposDeAnimal { get; set; } = new List<TipoAnimal>();
     }
 }

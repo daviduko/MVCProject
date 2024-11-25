@@ -1,23 +1,26 @@
 ﻿@using MVCProject.Models.ViewModels
 @model AnimalViewModel
 
-
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Lista de Animales";
 }
 
-<div class="text-center">
-    <h1>Lista de Animales</h1>
-    <ul>
-        @foreach (var animal in Model.Animales)
-        {          
-            <li>
-                <span class="animal-id">ID: @animal.IdAnimal</span>@animal.NombreAnimal
-                <form asp-action="AnimalDetail" asp-controller="Home" method="post">
-                    <input type="hidden" name="id" value="@animal.IdAnimal" />
-                    <button type="submit">Details</button>
-                </form>
-            </li>
-        }
-    </ul>
+<div class="text-center mb-4">
+    <h2 class="text-primary">Lista de Animales</h2>
+    <a href="@Url.Action("Insert", "Animal")" class="btn btn-success mt-3">Añadir Nuevo Animal</a>
 </div>
+<ul class="list-unstyled">
+    @foreach (var animal in Model.Animales)
+    {
+        <li class="animal-list-item">
+            <div>
+                <span class="animal-id">ID: @animal.IdAnimal</span>
+                <span>@animal.NombreAnimal</span>
+            </div>
+            <form asp-action="AnimalDetail" asp-controller="Home" method="post" class="d-inline">
+                <input type="hidden" name="id" value="@animal.IdAnimal" />
+                <button type="submit" class="btn btn-primary btn-sm">Ver Detalles</button>
+            </form>
+        </li>
+    }
+</ul>

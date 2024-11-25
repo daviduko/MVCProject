@@ -75,5 +75,25 @@ namespace MVCProject.DAL
             return animal;
         }
 
+        public void Insert(Animal animal)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"
+                    INSERT INTO Animal (NombreAnimal, Raza, RIdTipoAnimal, FechaNacimiento)
+                    VALUES (@NombreAnimal, @Raza, @RIdTipoAnimal, @FechaNacimiento)";
+
+                SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+                conn.Open();
+
+                cmd.Parameters.AddWithValue("@NombreAnimal", animal.NombreAnimal);
+                cmd.Parameters.AddWithValue("@Raza", animal.Raza);
+                cmd.Parameters.AddWithValue("@RIdTipoAnimal", animal.RIdTipoAnimal);
+                cmd.Parameters.AddWithValue("@Fechanacimiento", animal.FechaNacimiento ?? (object)DBNull.Value);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
     }
 }

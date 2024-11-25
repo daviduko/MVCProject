@@ -1,0 +1,42 @@
+﻿@using MVCProject.Models.ViewModels
+@model AnimalViewModel
+
+@{
+    ViewData["Title"] = "Insertar Nuevo Animal";
+}
+
+<div class="card mx-auto" style="max-width: 600px;">
+    <div class="card-header bg-success text-white">
+        <h4>Insertar Nuevo Animal</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Insert" asp-controller="Animal" method="post">
+            <div class="mb-3">
+                <label for="NombreAnimal" class="form-label">Nombre del Animal</label>
+                <input type="text" id="NombreAnimal" name="nombreAnimal" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="Raza" class="form-label">Raza</label>
+                <input type="text" id="Raza" name="raza" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="TipoDeAnimal" class="form-label">Tipo de Animal</label>
+                <select id="TipoDeAnimal" name="tipoDeAnimalId" class="form-select" required>
+                    <option value="">Seleccione un Tipo</option>
+                    @foreach (var tipo in @Model.TiposDeAnimal)
+                    {
+                        <option value="@tipo.IdTipoAnimal">@tipo.TipoDescripcion</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                <input type="date" id="FechaNacimiento" name="fechaNacimiento" class="form-control" />
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

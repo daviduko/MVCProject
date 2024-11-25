@@ -1,12 +1,22 @@
 ﻿@using MVCProject.Models.ViewModels
 @model DetailAnimalViewModel
 
-<h2>Detalles de animal</h2>
+@{
+    ViewData["Title"] = "Detalles del Animal";
+}
 
-<p>ID: @Model.AnimalDetail.IdAnimal</p>
-<p>Nombre: @Model.AnimalDetail.NombreAnimal</p>
-<p>Raza: @Model.AnimalDetail.Raza</p>
-<p>Tipo de Animal: @Model.AnimalDetail.TipoDeAnimal.TipoDescripcion</p>
-<p>Fecha de Nacimiento: @Model.AnimalDetail.FechaNacimiento?.ToString("d")</p>
-
-<a href="@Url.Action("Index", "Home")">Volver a la lista</a>
+<div class="card mx-auto" style="max-width: 600px;">
+    <div class="card-header bg-primary text-white">
+        <h4>Detalles del Animal</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>ID:</strong> @Model.AnimalDetail.IdAnimal</p>
+        <p><strong>Nombre:</strong> @Model.AnimalDetail.NombreAnimal</p>
+        <p><strong>Raza:</strong> @Model.AnimalDetail.Raza</p>
+        <p><strong>Tipo de Animal:</strong> @Model.AnimalDetail.TipoDeAnimal.TipoDescripcion</p>
+        <p><strong>Fecha de Nacimiento:</strong> @Model.AnimalDetail.FechaNacimiento?.ToString("d")</p>
+    </div>
+    <div class="card-footer text-center">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Volver a la Lista</a>
+    </div>
+</div>
