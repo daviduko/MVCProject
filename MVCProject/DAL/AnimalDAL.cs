@@ -5,7 +5,11 @@ namespace MVCProject.DAL
 {
     public class AnimalDAL
     {
-        private string connectionString = "";
+        private readonly string connectionString =
+            "Data Source=85.208.21.117,54321;" +
+            "Initial Catalog=DavidSanzAnimales;" +
+            "User ID=sa;" +
+            "Password=Sql#123456789";
 
         public List<Animal> GetAll()
         {

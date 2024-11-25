@@ -9,15 +9,15 @@
 <div class="text-center">
     <h1>Lista de Animales</h1>
     <ul>
-        @for (int i = 0; i < Model.Animales.Count; i++)
-        {
+        @foreach (var animal in Model.Animales)
+        {          
             <li>
-                <span class="animal-id" style="color:@(i % 2 == 1 ? "red" : "black")">
-                    ID: @(i + 1)
-                </span>
-                @Model.Animales[i]
-            </li> 
-            @* <li><span class="animal-id">ID: @(i + 1)</span>Model.Animales[i]</li> *@
+                <span class="animal-id">ID: @animal.IdAnimal</span>@animal.NombreAnimal
+                <form asp-action="AnimalDetail" asp-controller="Home" method="post">
+                    <input type="hidden" name="id" value="@animal.IdAnimal" />
+                    <button type="submit">Details</button>
+                </form>
+            </li>
         }
     </ul>
 </div>

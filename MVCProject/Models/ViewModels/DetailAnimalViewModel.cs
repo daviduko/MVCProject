@@ -2,6 +2,8 @@
 {
     public class DetailAnimalViewModel
     {
-        public Animal AnimalDetail { get; set; }
+        public Animal AnimalDetail { get; set; } = new Animal();
+
+        public DetailAnimalViewModel() { }
     }
 }

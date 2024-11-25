@@ -1,0 +1,12 @@
+﻿@using MVCProject.Models.ViewModels
+@model DetailAnimalViewModel
+
+<h2>Detalles de animal</h2>
+
+<p>ID: @Model.AnimalDetail.IdAnimal</p>
+<p>Nombre: @Model.AnimalDetail.NombreAnimal</p>
+<p>Raza: @Model.AnimalDetail.Raza</p>
+<p>Tipo de Animal: @Model.AnimalDetail.TipoDeAnimal.TipoDescripcion</p>
+<p>Fecha de Nacimiento: @Model.AnimalDetail.FechaNacimiento?.ToString("d")</p>
+
+<a href="@Url.Action("Index", "Home")">Volver a la lista</a>

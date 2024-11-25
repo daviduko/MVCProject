@@ -18,20 +18,18 @@ namespace MVCProject.Controllers
 
         public IActionResult Index()
         {
+            AnimalDAL dal = new AnimalDAL();
+
             AnimalViewModel viewModel = new AnimalViewModel();
+            viewModel.Animales = dal.GetAll();
+
             return View(viewModel);
         }
 
+        [HttpPost]
         public IActionResult AnimalDetail(int id)
         {
-            //AnimalDAL dal = new AnimalDAL();
-            //DetailAnimalViewModel vm = new DetailAnimalViewModel();
-
-            //vm.AnimalDetail = dal.GetById(id);
-
-            //TempData["Animal"] = JsonConvert.SerializeObject(vm);
-
-            return RedirectToAction("Details", "Animal");
+            return RedirectToAction("Details", "Animal", new { id });
         }
 
         public IActionResult Privacy()
