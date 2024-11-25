@@ -12,7 +12,7 @@ namespace MVCProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
             AnimalDAL dal = new AnimalDAL();
             DetailAnimalViewModel viewModel = new DetailAnimalViewModel();
