@@ -14,7 +14,6 @@ namespace MVCProject.Controllers
             return View();
         }
 
-        [HttpGet]
         public IActionResult Insert()
         {
             AnimalViewModel viewModel = new AnimalViewModel();
