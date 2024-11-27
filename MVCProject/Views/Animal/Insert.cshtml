@@ -1,5 +1,5 @@
 ﻿@using MVCProject.Models.ViewModels
-@model AnimalViewModel
+@model InsertAnimalViewModel
 
 @{
     ViewData["Title"] = "Insertar Nuevo Animal";
@@ -10,28 +10,31 @@
         <h4>Insertar Nuevo Animal</h4>
     </div>
     <div class="card-body">
-        <form asp-action="Insert" asp-controller="Animal" method="post">
+        <form asp-action="Insert" asp-controller="Animal" method="post" asp-antiforgery="true">
             <div class="mb-3">
                 <label for="NombreAnimal" class="form-label">Nombre del Animal</label>
-                <input type="text" id="NombreAnimal" name="nombreAnimal" class="form-control" required />
+                <input asp-for="NombreAnimal" type="text" id="NombreAnimal" class="form-control"/>
+                <span asp-validation-for="NombreAnimal" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="Raza" class="form-label">Raza</label>
-                <input type="text" id="Raza" name="raza" class="form-control" required />
+                <input asp-for="Raza" type="text" id="Raza" class="form-control"/>
+                <span asp-validation-for="Raza" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="TipoDeAnimal" class="form-label">Tipo de Animal</label>
-                <select id="TipoDeAnimal" name="tipoDeAnimalId" class="form-select" required>
+                <select asp-for="RIdTipoAnimal" id="TipoDeAnimal" class="form-select">
                     <option value="">Seleccione un Tipo</option>
                     @foreach (var tipo in @Model.TiposDeAnimal)
                     {
                         <option value="@tipo.IdTipoAnimal">@tipo.TipoDescripcion</option>
                     }
                 </select>
+                <span asp-validation-for="RIdTipoAnimal" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="FechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                <input type="date" id="FechaNacimiento" name="fechaNacimiento" class="form-control" />
+                <input asp-for="FechaNacimiento" type="date" id="FechaNacimiento" class="form-control" />
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-success">Guardar</button>

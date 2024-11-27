@@ -31,8 +31,8 @@
                                 </button>
                             </form>
                         </li>
-                        <form asp-action="Delete" asp-controller="Animal" method="post" class="ms-2" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este animal?');">
-                            <input type="hidden" name="id" value="@animal.IdAnimal" />
+                        <form asp-action="Delete" asp-controller="Animal" method="post" class="ms-2">
+                            <input type="hidden" name="idAnimal" value="@animal.IdAnimal" />
                             <button type="submit" class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash"></i>
                             </button>

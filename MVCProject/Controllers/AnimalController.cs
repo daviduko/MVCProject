@@ -16,7 +16,7 @@ namespace MVCProject.Controllers
 
         public IActionResult Insert()
         {
-            AnimalViewModel viewModel = new AnimalViewModel();
+            InsertAnimalViewModel viewModel = new InsertAnimalViewModel();
             TipoAnimalDAL tipoAnimalDAL = new TipoAnimalDAL();
 
             viewModel.TiposDeAnimal = tipoAnimalDAL.GetAll();
@@ -25,17 +25,18 @@ namespace MVCProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(string nombreAnimal, string raza, int tipoDeAnimalId, DateTime? fechaNacimiento)
+        [ValidateAntiForgeryToken]
+        public IActionResult Insert(InsertAnimalViewModel model)
         {
             AnimalDAL animalDAL = new AnimalDAL();
             animalDAL.Insert
             (
                 new Animal
                 {
-                    NombreAnimal = nombreAnimal,
-                    Raza = raza,
-                    RIdTipoAnimal = tipoDeAnimalId,
-                    FechaNacimiento = fechaNacimiento
+                    NombreAnimal = model.NombreAnimal,
+                    Raza = model.Raza,
+                    RIdTipoAnimal = model.RIdTipoAnimal,
+                    FechaNacimiento = model.FechaNacimiento
                 }
             );
 
@@ -61,7 +62,7 @@ namespace MVCProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Delete(int idAnimal)
         {
             AnimalDAL animalDAL = new AnimalDAL();
