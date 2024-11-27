@@ -23,12 +23,12 @@
             </div>
             <div class="mb-3">
                 <label for="TipoDeAnimal" class="form-label">Tipo de Animal</label>
-                <select asp-for="RIdTipoAnimal" id="TipoDeAnimal" class="form-select">
+                <select asp-for="RIdTipoAnimal" asp-items="ViewBag.TiposDeAnimal" id="TipoDeAnimal" class="form-select">
                     <option value="">Seleccione un Tipo</option>
-                    @foreach (var tipo in @Model.TiposDeAnimal)
+                    @* @foreach (var tipo in @Model.TiposDeAnimal)
                     {
                         <option value="@tipo.IdTipoAnimal">@tipo.TipoDescripcion</option>
-                    }
+                    } *@
                 </select>
                 <span asp-validation-for="RIdTipoAnimal" class="text-danger"></span>
             </div>
@@ -43,3 +43,16 @@
         </form>
     </div>
 </div>
+
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-error" role="alert">
+        ViewBag.Error
+    </div>
+}
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

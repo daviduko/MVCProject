@@ -3,6 +3,14 @@
 
 @{
     ViewData["Title"] = "Lista de Animales";
+    var successMessage = TempData["Success"] as string;
+}
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @successMessage
+    </div>
 }
 
 <div class="container mt-5">

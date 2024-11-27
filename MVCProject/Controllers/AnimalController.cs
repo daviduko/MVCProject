@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.Hosting;
 using MVCProject.DAL;
 using MVCProject.Models;
 using MVCProject.Models.ViewModels;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace MVCProject.Controllers
@@ -14,33 +16,57 @@ namespace MVCProject.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Insert()
         {
-            InsertAnimalViewModel viewModel = new InsertAnimalViewModel();
             TipoAnimalDAL tipoAnimalDAL = new TipoAnimalDAL();
+            var tiposDeAnimal = tipoAnimalDAL.GetAll();
 
-            viewModel.TiposDeAnimal = tipoAnimalDAL.GetAll();
+            ViewBag.TiposDeAnimal = tiposDeAnimal.Select(t => new SelectListItem
+            {
+                Value = t.IdTipoAnimal.ToString(),
+                Text = t.TipoDescripcion
+            });
 
-            return View(viewModel);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Insert(InsertAnimalViewModel model)
         {
-            AnimalDAL animalDAL = new AnimalDAL();
-            animalDAL.Insert
-            (
-                new Animal
-                {
-                    NombreAnimal = model.NombreAnimal,
-                    Raza = model.Raza,
-                    RIdTipoAnimal = model.RIdTipoAnimal,
-                    FechaNacimiento = model.FechaNacimiento
-                }
-            );
+            if (ModelState.IsValid)
+            {
 
-            return RedirectToAction("Index", "Home");
+                AnimalDAL animalDAL = new AnimalDAL();
+                animalDAL.Insert
+                (
+                    new Animal
+                    {
+                        NombreAnimal = model.NombreAnimal,
+                        Raza = model.Raza,
+                        RIdTipoAnimal = model.RIdTipoAnimal,
+                        FechaNacimiento = model.FechaNacimiento
+                    }
+                );
+
+                TempData["Success"] = "Se ha creado el animal";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            TipoAnimalDAL tipoAnimalDAL = new TipoAnimalDAL();
+            var tiposDeAnimal = tipoAnimalDAL.GetAll();
+
+            ViewBag.TiposDeAnimal = tiposDeAnimal.Select(t => new SelectListItem
+            {
+                Value = t.IdTipoAnimal.ToString(),
+                Text = t.TipoDescripcion
+            });
+
+            ViewBag.Error = "No se ha podido crear el animal";
+
+            return View(model);
         }
 
         [HttpPost]
@@ -72,22 +98,18 @@ namespace MVCProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details()
         {
-            AnimalDAL dal = new AnimalDAL();
-            TipoAnimalDAL tipoAnimalDAL = new TipoAnimalDAL();
-
-            DetailAnimalViewModel viewModel = new DetailAnimalViewModel();
-
-            viewModel.AnimalDetail = dal.GetById(id);
-            viewModel.TiposDeAnimal = tipoAnimalDAL.GetAll();
-
-            if (viewModel.AnimalDetail == null)
+            if (TempData["Animal"] != null)
             {
-                return NotFound();
+                var json = TempData["Animal"] as string;
+                var viewModel = JsonConvert.DeserializeObject<DetailAnimalViewModel>(json);
+
+                return View(viewModel);
             }
 
-            return View(viewModel);
+            ViewBag.NoAnimal = "No se ha encontrado ningún animal";
+            return View();
         }
     }
 }
