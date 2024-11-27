@@ -6,17 +6,61 @@
 }
 
 <div class="card mx-auto" style="max-width: 600px;">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <h4>Detalles del Animal</h4>
+        <button id="editButton" class="btn btn-light btn-sm">
+            <i class="bi bi-pencil"></i>
+        </button>
     </div>
     <div class="card-body">
-        <p><strong>ID:</strong> @Model.AnimalDetail.IdAnimal</p>
-        <p><strong>Nombre:</strong> @Model.AnimalDetail.NombreAnimal</p>
-        <p><strong>Raza:</strong> @Model.AnimalDetail.Raza</p>
-        <p><strong>Tipo de Animal:</strong> @Model.AnimalDetail.TipoDeAnimal.TipoDescripcion</p>
-        <p><strong>Fecha de Nacimiento:</strong> @Model.AnimalDetail.FechaNacimiento?.ToString("d")</p>
-    </div>
-    <div class="card-footer text-center">
-        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Volver a la Lista</a>
+        <form asp-action="Update" asp-controller="Animal" method="post">
+            <div class="mb-3">
+                <label><strong>ID:</strong></label>
+                <input type="text" class="form-control" name="idAnimal" value="@Model.AnimalDetail.IdAnimal" readonly />
+            </div>
+            <div class="mb-3">
+                <label><strong>Nombre:</strong></label>
+                <input type="text" class="form-control" name="nombreAnimal" value="@Model.AnimalDetail.NombreAnimal" disabled />
+            </div>
+            <div class="mb-3">
+                <label><strong>Raza:</strong></label>
+                <input type="text" class="form-control" name="raza" value="@Model.AnimalDetail.Raza" disabled />
+            </div>
+            <div class="mb-3">
+                <label><strong>Tipo de Animal:</strong></label>
+                <select id="TipoDeAnimal" name="tipoDeAnimalId" class="form-select" disabled>
+                    @foreach (var tipo in @Model.TiposDeAnimal)
+                    {
+                        @if (tipo.IdTipoAnimal == @Model.AnimalDetail.TipoDeAnimal.IdTipoAnimal)
+                        {
+                            <option value="@tipo.IdTipoAnimal" selected>@tipo.TipoDescripcion</option>
+                        }
+                        else
+                        {
+                            <option value="@tipo.IdTipoAnimal">@tipo.TipoDescripcion</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label><strong>Fecha de Nacimiento:</strong></label>
+                <input type="date" class="form-control" name="fechaNacimiento" value="@Model.AnimalDetail.FechaNacimiento?.ToString("yyyy-MM-dd")" disabled />
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" id="saveButton" style="display: none;">Guardar</button>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
     </div>
 </div>
+<script>
+    document.getElementById("editButton").onclick = function(){
+        document.querySelectorAll("input[type=text], input[type=date], select").forEach(input => {
+            input.disabled = false;
+        });
+
+        document.getElementById("saveButton").style.display = "inline-block";
+
+        document.getElementById("editButton").style.display = "none";
+    }
+</script>

@@ -25,7 +25,7 @@ namespace MVCProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(string nombreAnimal, string raza, int tipoDeAnimalId, DateTime fechaNacimiento)
+        public IActionResult Insert(string nombreAnimal, string raza, int tipoDeAnimalId, DateTime? fechaNacimiento)
         {
             AnimalDAL animalDAL = new AnimalDAL();
             animalDAL.Insert
@@ -42,13 +42,44 @@ namespace MVCProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public IActionResult Update(int idAnimal, string nombreAnimal, string raza, int tipoDeAnimalId, DateTime? fechaNacimiento)
+        {
+            AnimalDAL animalDAL = new AnimalDAL();
+            animalDAL.Update
+            (
+                new Animal
+                {
+                    IdAnimal = idAnimal,
+                    NombreAnimal = nombreAnimal,
+                    Raza = raza,
+                    RIdTipoAnimal = tipoDeAnimalId,
+                    FechaNacimiento = fechaNacimiento
+                }
+            );
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int idAnimal)
+        {
+            AnimalDAL animalDAL = new AnimalDAL();
+            animalDAL.Delete(idAnimal);
+
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         public IActionResult Details(int id)
         {
             AnimalDAL dal = new AnimalDAL();
+            TipoAnimalDAL tipoAnimalDAL = new TipoAnimalDAL();
+
             DetailAnimalViewModel viewModel = new DetailAnimalViewModel();
 
             viewModel.AnimalDetail = dal.GetById(id);
+            viewModel.TiposDeAnimal = tipoAnimalDAL.GetAll();
 
             if (viewModel.AnimalDetail == null)
             {

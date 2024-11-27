@@ -95,5 +95,49 @@ namespace MVCProject.DAL
             }
         }
 
+        public void Update(Animal animal)
+        {
+            using(SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"
+                    UPDATE Animal
+                    SET NombreAnimal = @NombreAnimal,
+                        Raza = @Raza,
+                        RIdTipoAnimal = @RIdTipoAnimal,
+                        FechaNacimiento = @FechaNacimiento
+                    WHERE IdAnimal = @IdAnimal";
+
+                SqlCommand cmd = new SqlCommand(sqlQuery, conn);
+                conn.Open();
+
+                cmd.Parameters.AddWithValue("@IdAnimal", animal.IdAnimal);
+                cmd.Parameters.AddWithValue("@NombreAnimal", animal.NombreAnimal);
+                cmd.Parameters.AddWithValue("@Raza", animal.Raza);
+                cmd.Parameters.AddWithValue("@RIdTipoAnimal", animal.RIdTipoAnimal);
+                cmd.Parameters.AddWithValue("@Fechanacimiento", animal.FechaNacimiento ?? (object)DBNull.Value);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void Delete(int animalId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"
+                DELETE FROM Animal WHERE IdAnimal = @IdAnimal;
+                DECLARE @max INT;
+                SELECT @max = MAX(IdAnimal) FROM Animal;
+                IF @max IS NULL SET @max = 0;
+                DBCC CHECKIDENT('Animal', RESEED, @max);";
+
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@IdAnimal", animalId);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
